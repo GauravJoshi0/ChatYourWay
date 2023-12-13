@@ -1,0 +1,132 @@
+MDScreen:
+    canvas:
+        Color:
+            rgba: 252/255, 252/255, 252/255, 1
+        Rectangle: 
+            pos: self.pos
+            size:self.width, self.height
+    MDBoxLayout:
+        MDNavigationRail:
+            id: navigation_rail
+            text_color_item_active: app.theme_cls.primary_color
+            md_bg_color: "#f3f3f3"
+            selected_color_background: "#f3f3f3"
+            ripple_color_item: "#f3f3f3"
+
+            MDNavigationRailItem:
+                icon: "images\profile.png"
+                text: "Profile"
+                font_name: "nav_rail"
+
+            MDNavigationRailItem:
+                icon: "images\AI.png"
+                text: "AI"
+
+            MDNavigationRailItem:
+                id: call
+                icon: "images\call.png"
+                text: "Calls"
+
+            MDNavigationRailItem:
+                icon: "images\setting.png"
+                text: "Setting"
+
+        MDBoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 234/255, 234/255, 234/255, 1
+                Line:
+                    width: 1.2
+                    rectangle: self.x, self.y, self.width, self.height
+            size_hint: None, 1
+            size: (350, 0)
+            padding: 2, 18, 2, 0
+
+            canvas:
+                Color:
+                    rgba: 254/255, 254/255, 254/255, 1
+                Rectangle: 
+                    pos: self.pos
+                    size:self.width, self.height
+
+            MDTextField:
+                id: name
+                mode: "fill"
+                size_hint: 1, None
+                height: "30dp"
+                font_name: "nav_rail"
+                background_color: app.theme_cls.bg_normal
+                pos_hint: {"center_y": 1}
+                hint_text: "Search or start a new chat"
+
+        MDBoxLayout:
+            orientation: "vertical"
+            MDBoxLayout:
+                orientation: "horizontal"
+                size_hint: 1, None
+                height: call.height
+                pos_hint: {"center_y": 1}
+
+                canvas:
+                    Color:
+                        rgba: 240/255, 240/255, 240/255, 1
+                    Rectangle: 
+                        pos: self.pos
+                        size:self.width, self.height
+
+                canvas.before:
+                    Color:
+                        rgba: 234/255, 234/255, 234/255, 1
+                    Line:
+                        width: 1.2
+                        rectangle: self.x, self.y, self.width, self.height
+                    
+                Label:
+                MDIconButton:
+                    id: call
+                    icon: "images\call.png"
+                    pos_hint: {"center_x": 1}
+
+                MDIconButton:
+                    icon: "images\\vidcall.png"
+                    pos_hint: {"center_x": 1}
+
+                MDIconButton:
+                    icon: "images\screenshare.png"
+                    pos_hint: {"center_x": 1}
+                
+            MDBoxLayout:
+                orientation: "vertical"
+                canvas.before:
+                    Color:
+                        rgba: 234/255, 234/255, 234/255, 1
+                    Line:
+                        width: 1.2
+                        rectangle: self.x, self.y, self.width, self.height
+                
+                MDBoxLayout:
+                    size_hint: 1, None
+                    pos_hint: {"center_y": 0}
+                    height: text_field.height
+                    padding: [7, 0, 7, 9]
+                    MDRelativeLayout:
+                        size_hint_y: None
+                        height: text_field.height
+                        MDTextField:
+                            id: text_field
+                            mode: "round"
+                            fill_color_normal: "ffffff"
+                            hint_text: "Message..."
+                            font_size: 20
+                        
+                        MDIconButton:
+                            icon: "images\microphone.png"
+                            pos: text_field.width - self.width - dp(70), text_field.height - self.height + dp(4)
+
+                        MDIconButton:
+                            icon: "images\\attach.png"
+                            pos: text_field.width - self.width - dp(35), text_field.height - self.height + dp(4)
+                        
+                        MDIconButton:
+                            icon: "images\smile.png"
+                            pos: text_field.width - self.width - dp(0), text_field.height - self.height + dp(4)
