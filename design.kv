@@ -53,8 +53,12 @@ MDScreen:
                 id: name
                 mode: "fill"
                 size_hint: 1, None
+                max_text_length: 25
+                text_color_focus: "1F1F1F"
                 height: "30dp"
-                font_name: "nav_rail"
+                hint_text_color_focus: "606060"
+                fill_color_normal: "e5e5e5"
+                font_name: "message"
                 background_color: app.theme_cls.bg_normal
                 pos_hint: {"center_y": 1}
                 hint_text: "Search or start a new chat"
@@ -110,14 +114,18 @@ MDScreen:
                     height: text_field.height
                     padding: [7, 0, 7, 9]
                     MDRelativeLayout:
+                        id: field_layout
                         size_hint_y: None
                         height: text_field.height
                         MDTextField:
                             id: text_field
                             mode: "round"
+                            line_color_focus: "bbbbbb"
                             fill_color_normal: "ffffff"
+                            md_bg_color: "000000"
+                            text_color_focus: "0f0f0f"
                             hint_text: "Message..."
-                            font_size: 20
+                            font_name: "message"
                         
                         MDIconButton:
                             icon: "images\microphone.png"
