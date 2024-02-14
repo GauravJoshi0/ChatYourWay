@@ -1,4 +1,217 @@
-MDScreen:
+WindowManager:
+    ChatWindow
+    SettingWindow
+
+<User>:
+    theme_text_color: "Custom"
+    text_color:[1, 1, 1, 1]
+    height: self.texture_size[1]
+    halign: "center"
+    padding: [12, 10]
+    size_hint_y: None
+    pos_hint:{'right': 1}
+    canvas.before:
+        Color:
+            id: canvas_color
+            rgba: 9/255, 127/255, 230/255, 1  
+        RoundedRectangle:
+            pos: self.pos 
+            size:self.width, self.height 
+            radius:[23,23,0,23]
+
+<Response>:
+    height: self.texture_size[1]
+    halign: "center"
+    padding: [12, 10]
+    size_hint_y: None
+    pos_hint:{'left':1}
+    canvas.before:
+        Color:
+            rgba: 237/255, 237/255, 237/255,1  
+        RoundedRectangle:
+            pos: self.pos 
+            size:self.width, self.height 
+            radius:[23,23,0,23]
+
+<SettingWindow>:
+    name: "settingwindow"
+    BoxLayout:
+        orientation: "vertical"
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint_y: None
+            pos_hint: {"center_y": 1}
+            canvas.before:
+                Color:
+                    rgba: (149/255, 0, 1, 1)
+                RoundedRectangle:
+                    pos: self.x, self.y+24
+                    size:self.width, 1
+                    radius:[30,30,30,30]
+            MDIconButton:
+                valign: "center"
+                icon: "arrow-left"
+                size_hint_y: None
+                on_press: app.root.current="chatwindow"
+                pos_hint: {"center_x": 0, "center_y": 0.5}
+            MDLabel:
+                text: "Setting"
+                font_size: 22
+                halign: "center"
+                pos_hint: {"center_x": 0.5}
+                font_name: "message"
+        BoxLayout:
+            orientation: "vertical"
+            ScrollView:
+                MDList:
+                    MDLabel:
+                        text: "Appearence"
+                        bold: True
+                        font_size: 24
+                        font_name: "message"
+                        halign: "center"
+                        size_hint_y: None
+                    OneLineIconListItem:
+                        text: "Change Background Image"
+                        on_press: app.root.current="appearencewindow"
+                        IconLeftWidget:
+                            icon: "image-multiple"
+                        
+                    OneLineIconListItem:
+                        text: "Change Font Faces"
+                        on_press: app.changefont()
+                        IconLeftWidget:
+                            icon: "format-font"
+                        
+                    MDLabel:
+                        text: "System Setting"
+                        bold: True
+                        font_size: 24
+                        font_name: "message"
+                        halign: "center"
+                        size_hint_y: None
+
+                    OneLineIconListItem:
+                        text: "Clear conversation history"
+                        on_press: app.clear_history()
+                        IconLeftWidget:
+                            icon: "history"
+
+                    MDBoxLayout:
+                        size_hint_y: None
+                        height: dp(48)
+                        padding: [0, 0, 50, 0]
+                        OneLineIconListItem:
+                            text: "Smart mode"
+                            id: sord
+                            on_press: app.smart()
+                            IconLeftWidget:
+                                icon: "robot-vacuum"
+                        MDSwitch:
+                            id: switch
+                            size_hint: None, None
+                            size: dp(36), dp(48)
+                            disabled: True
+                            thumb_color_disabled: "#479aeb"
+
+                    MDBoxLayout:
+                        size_hint_y: None
+                        height: dp(48)
+                        padding: [0, 0, 50, 0]
+                        OneLineIconListItem:
+                            text: "Clear Advance chat"
+                            id: clrsmart
+                            on_press: app.clrchat()
+                            IconLeftWidget:
+                                icon: "forum-minus-outline"
+                        MDSwitch:
+                            id: switch2
+                            size_hint: None, None
+                            size: dp(36), dp(48)
+                            disabled: True
+                            thumb_color_disabled: "#479aeb"
+                            
+                    TwoLineIconListItem:
+                        text: "Restore default"
+                        on_press: app.restore()
+                        secondary_text: "Restore current Pallete, Theme, Setting and More to default"
+                        IconLeftWidget:
+                            icon: "backup-restore"
+
+                    MDLabel:
+                        text: "Bot Setting"
+                        bold: True
+                        font_size: 24
+                        font_name: "message"
+                        halign: "center"
+                        size_hint_y: None
+                
+                    TwoLineIconListItem:
+                        text: "Word of the day"
+                        secondary_text: "Notify a new word everyday"
+                        on_press: app.wordoftheday()
+                        IconLeftWidget:
+                            icon: "wordpress"
+
+                    OneLineIconListItem:
+                        text: "Change Greeting Message"
+                        on_press: app.welcome_message()
+                        IconLeftWidget:
+                            icon: "playlist-edit"
+
+                    MDLabel:
+                        text: "View Script"
+                        bold: True
+                        font_size: 24
+                        font_name: "message"
+                        halign: "center"
+                        size_hint_y: None
+
+                    OneLineIconListItem:
+                        text: "Script: English"
+                        on_press:
+                            app.showscript()
+                            app.root.current="scriptwindow"
+                        IconLeftWidget:
+                            icon: "alphabetical"
+
+                    OneLineIconListItem:
+                        text: "Script: Nepali"
+                        on_press:
+                            app.showscript2()
+                            app.root.current="scriptwindow"
+                        IconLeftWidget:
+                            icon: "abugida-devanagari"
+
+                    MDLabel:
+                        text: "Help"
+                        bold: True
+                        font_size: 24
+                        font_name: "message"
+                        halign: "center"
+                        size_hint_y: None
+
+                    TwoLineIconListItem:
+                        text: "Feedback Hub"
+                        secondary_text: "Support us to improve"
+                        on_press: app.feedback()
+                        IconLeftWidget:
+                            icon: "message-reply-text-outline"
+                        
+                    OneLineIconListItem:
+                        on_press: app.shortcut()
+                        text: "Show All Controls"
+                        IconLeftWidget:
+                            icon: "camera-control"
+                        
+                    OneLineIconListItem:
+                        text: "About"
+                        on_press: app.root.current="docwindow"
+                        IconLeftWidget:
+                            icon: "information"
+
+<ChatWindow>:
+    name: "chatwindow"
     canvas:
         Color:
             rgba: 252/255, 252/255, 252/255, 1
@@ -15,11 +228,11 @@ MDScreen:
             ripple_color_item: "#f3f3f3"
 
             MDNavigationRailItem:
-                icon: "images\profile.png"
-                text: "Profile"
-                font_name: "nav_rail"
+                icon: "images\home.png"
+                text: "Home"
 
             MDNavigationRailItem:
+                id: chat
                 icon: "images\chat.png"
                 text: "Chat"
 
@@ -28,52 +241,23 @@ MDScreen:
                 text: "AI"
 
             MDNavigationRailItem:
-                id: call
-                icon: "images\call.png"
-                text: "Calls"
-
-            MDNavigationRailItem:
                 icon: "images\setting.png"
                 text: "Setting"
+                on_press: app.root.current="settingwindow"
 
         MDBoxLayout:
+            orientation: "vertical"
             canvas.before:
                 Color:
                     rgba: 234/255, 234/255, 234/255, 1
                 Line:
                     width: 1.2
                     rectangle: self.x, self.y, self.width, self.height
-            size_hint: None, 1
-            size: (350, 0)
-            padding: 2, 18, 2, 0
-
-            canvas:
-                Color:
-                    rgba: 254/255, 254/255, 254/255, 1
-                Rectangle: 
-                    pos: self.pos
-                    size:self.width, self.height
-
-            MDTextField:
-                id: name
-                mode: "fill"
-                size_hint: 1, None
-                max_text_length: 25
-                text_color_focus: "1F1F1F"
-                height: "30dp"
-                hint_text_color_focus: "606060"
-                fill_color_normal: "e5e5e5"
-                font_name: "message"
-                background_color: app.theme_cls.bg_normal
-                pos_hint: {"center_y": 1}
-                hint_text: "Search or start a new chat"
-
-        MDBoxLayout:
-            orientation: "vertical"
+                    
             MDBoxLayout:
                 orientation: "horizontal"
                 size_hint: 1, None
-                height: call.height
+                height: chat.height
                 pos_hint: {"center_y": 1}
 
                 canvas:
@@ -105,45 +289,50 @@ MDScreen:
                     ripple_scale: 0
                     icon: "images\screenshare.png"
                     pos_hint: {"center_x": 1}
-                
+
+            ScrollView:
+                do_scroll_x: False
+                do_scroll_y: True
+                MDBoxLayout:
+                    id: layout
+                    orientation: "vertical"
+                    spacing: 2
+                    padding: 4
+                    size: (root.width-80.0, root.height)
+                    height: self.minimum_height
+                    size_hint: None, None
+
             MDBoxLayout:
                 orientation: "vertical"
-                canvas.before:
-                    Color:
-                        rgba: 234/255, 234/255, 234/255, 1
-                    Line:
-                        width: 1.2
-                        rectangle: self.x, self.y, self.width, self.height
-                
-                MDBoxLayout:
-                    id: layout_main1
-                    size_hint: 1, None
-                    pos_hint: {"center_y": 0}
+                id: layout_main1
+                size_hint: 1, None
+                pos_hint: {"center_y": 0}
+                height: text_field.height
+                padding: [7, 0, 7, 9]
+
+                MDRelativeLayout:
+                    id: field_layout
+                    size_hint_y: None
                     height: text_field.height
-                    padding: [7, 0, 7, 9]
-                    MDRelativeLayout:
-                        id: field_layout
-                        size_hint_y: None
-                        height: text_field.height
-                        MDTextField:
-                            id: text_field
-                            mode: "round"
-                            line_color_focus: "bbbbbb"
-                            fill_color_normal: "ffffff"
-                            on_focus: app.on_textfield_focus()
-                            md_bg_color: "000000"
-                            text_color_focus: "0f0f0f"
-                            hint_text: "Message..."
-                            font_name: "message"
+                    MDTextField:
+                        id: text_field
+                        mode: "round"
+                        line_color_focus: "bbbbbb"
+                        fill_color_normal: "ffffff"
+                        on_focus: root.on_textfield_focus()
+                        md_bg_color: "000000"
+                        text_color_focus: "0f0f0f"
+                        hint_text: "Message..."
+                        font_name: "message"
+                
+                    MDIconButton:
+                        id: mike
+                        ripple_scale: 0
+                        icon: "images\microphone.png"
+                        pos: text_field.width - self.width - dp(35), text_field.height - self.height + dp(4)
                     
-                        MDIconButton:
-                            id: mike
-                            ripple_scale: 0
-                            icon: "images\microphone.png"
-                            pos: text_field.width - self.width - dp(35), text_field.height - self.height + dp(4)
-                        
-                        MDIconButton:
-                            id: attach
-                            ripple_scale: 0
-                            icon: "images\\attach.png"
-                            pos: text_field.width - self.width - dp(0), text_field.height - self.height + dp(4)
+                    MDIconButton:
+                        id: attach
+                        ripple_scale: 0
+                        icon: "images\\attach.png"
+                        pos: text_field.width - self.width - dp(0), text_field.height - self.height + dp(4)
