@@ -36,6 +36,11 @@ class ChatWindow(Screen):
     def on_enter(self):
         layout=self.manager.get_screen("chatwindow").ids.layout
         def reciever():
+            sender=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sender.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            port=9999
+            ip=socket.gethostbyname(socket.gethostname())
+
             sender.bind((ip, port))
             sender.listen()
             while True:
@@ -73,6 +78,11 @@ class ChatWindow(Screen):
         
         # Creating a system which will send message the layout side
         try:
+            sender=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sender.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            port=9999
+            ip=socket.gethostbyname(socket.gethostname())
+
             sender.connect((ip, port))
 
             sender.send(message.encode())
