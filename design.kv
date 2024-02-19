@@ -1,4 +1,5 @@
 WindowManager:
+    HomeWindow
     ChatWindow
     SettingWindow
 
@@ -32,6 +33,15 @@ WindowManager:
             pos: self.pos 
             size:self.width, self.height 
             radius:[23,23,0,23]
+
+<HomeWindow>:
+    name: "homewindow"
+    BoxLayout:
+        orientation: "vertical"
+        MDRaisedButton:
+            text: "Enter"
+            pos_hint: {"center_y": .5, "center_x": .5}
+            on_press: app.root.current="chatwindow"
 
 <SettingWindow>:
     name: "settingwindow"

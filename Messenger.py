@@ -5,6 +5,7 @@ from kivy import Config
 from kivy.lang import Builder
 from kivy.core.text import LabelBase
 from kivy.uix.screenmanager import Screen, ScreenManager
+import socket, threading
 
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 
@@ -12,16 +13,51 @@ LabelBase.register(name="nav_rail", fn_regular="fonts\\CourierPrime-Regular.ttf"
 LabelBase.register(name="nasalization", fn_regular="fonts\\nasalization-rg.otf")
 LabelBase.register(name="message", fn_regular="fonts\\Poppins-Regular.ttf")
 
+# Global variables
+sender=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sender.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+port=9999
+ip=socket.gethostbyname(socket.gethostname())
+
+
 class User(MDLabel):
     ...
 
 class Response(MDLabel):
     ...
 
+class HomeWindow(Screen):
+    ...
+
 class SettingWindow(Screen):
     ...
 
 class ChatWindow(Screen):
+    def on_enter(self):
+        layout=self.manager.get_screen("chatwindow").ids.layout
+        def reciever():
+            sender.bind((ip, port))
+            sender.listen()
+            while True:
+                try:
+                    sender, addr = sender.accept()
+                    message=sender.recv(1024).decode()
+                    if (len(message))<=5:
+                        lblsize=0.1
+                    elif (len(message))<=14:
+                        lblsize=0.19
+                    elif (len(message))<=20:
+                        lblsize=0.27
+                    else:
+                        lblsize=0.4
+                    print(message)
+                    layout.add_widget(Response(text="message", valign="center", size_hint_x=lblsize))
+                    sender.close()
+                except:
+                    ...
+
+        threading.Thread(target=reciever).start()
+
     def send(self, object):
         message=self.manager.get_screen("chatwindow").ids.text_field.text
         layout=self.manager.get_screen("chatwindow").ids.layout
@@ -34,6 +70,16 @@ class ChatWindow(Screen):
         else:
             lblsize=0.4
         layout.add_widget(User(text=message, valign="center", size_hint_x=lblsize))
+        
+        # Creating a system which will send message the layout side
+        try:
+            sender.connect((ip, port))
+
+            sender.send(message.encode())
+            sender.close()
+        
+        except ConnectionRefusedError:
+            ...
         # self.manager.get_screen("chatwindow").ids.text_field.text=""
         
     def on_textfield_focus(self):
